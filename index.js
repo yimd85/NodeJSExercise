@@ -14,6 +14,7 @@ mongoose.connect(keys.mongoURI, { useMongoClient: true });
 
 const app = express();
 
+//middlewares
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -23,6 +24,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+//middlewares
 
 require('./routes/authRoutes')(app);
 require('./routes/blogRoutes')(app);
