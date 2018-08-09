@@ -14,6 +14,20 @@ module.exports = app => {
   });
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
+    const redis = require('redis');
+    const util = require('util');
+    const redisUrl = 'redis://127.0.0.1:6379';
+    const client = redis.createClient(redisUrl);
+    //promisify
+    client.get = util.promisify(client.get);
+
+    //Do we have any cached data in redis related to this query
+    const cachedBlog = await client.get(req.user.id);
+
+
+    //if so then respond to the request right awya and return
+
+  //if not respond to the request and update our cache to store the data
     const blogs = await Blog.find({ _user: req.user.id });
 
     res.send(blogs);
