@@ -25,12 +25,17 @@ module.exports = app => {
     const cachedBlog = await client.get(req.user.id);
 
 
-    //if so then respond to the request right awya and return
-
+    //if so then respond to the request right away and return
+    if (cachedBlog) {
+      console.log('Serving from cache');
+      return res.send(JSON.parse(cachedBlog));
+    }
   //if not respond to the request and update our cache to store the data
     const blogs = await Blog.find({ _user: req.user.id });
-
+    console.log('Serving from MONGODB');
     res.send(blogs);
+
+    client.set(req.user.id, JSON.stringify(blogs));
   });
 
   app.post('/api/blogs', requireLogin, async (req, res) => {
