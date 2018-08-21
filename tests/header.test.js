@@ -1,22 +1,26 @@
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
+const sessionFactory = require('./factories/sessionFactory');
+const userFactory = require('./factories/userFactory');
+const Page = require('./helpers/page');
 
 // test('Adds two numbers', () => {
 //     const sum = 1 + 2;
 //     expect(sum).toEqual(3);
 // });
 
-let browser, page;
+let page;
 
-beforeEach( async () =>{
-  browser = await puppeteer.launch({
-    headless: false
-  });
-  page = await browser.newPage();
+beforeEach(async () => {
+  // browser = await puppeteer.launch({
+  //   headless: false
+  // });
+  // page = await browser.newPage();
+  page = await Page.build();
   await page.goto('localhost:3000');
-})
+});
 
-afterEach( async () => {
-  await browser.close();
+afterEach (async () => {
+  await page.close();
 });
 
 test('The header has the correct text', async () => {
@@ -36,12 +40,13 @@ test('clicking login starts oauth flow', async () => {
   const url = await page.url();
   // console.log(url);
   expect(url).toMatch(/accounts\.google\.com/);
-
-
 });
 
 test('when signed in, shows logout button', async () => {
-  const id = '5b672e9a5aeb420ca19b7528';
+  // const id = '5b672e9a5aeb420ca19b7528';
+  const user = await userFactory();
+  const { session, sig } = sessionFactory(user);
+
   // const Buffer = require('safe-buffer').Buffer;
   // const sessionObject = {
   //   passport: {
@@ -61,7 +66,7 @@ test('when signed in, shows logout button', async () => {
   // eyJwYXNzcG9ydCI6eyJ1c2VyIjoiNWI2NzJlOWE1YWViNDIwY2ExOWI3NTI4In19
   // zYSfYZfJkkgRawUyYcb3lTnniVw
 
-  await page.setCookie({ name: 'session', value: sessionString });
+  await page.setCookie({ name: 'session', value: session });
   await page.setCookie({ name: 'session.sig', value: sig });
   await page.goto('localhost:3000');
   await page.waitFor('a[href="/auth/logout"]');
