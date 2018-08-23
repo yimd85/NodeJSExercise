@@ -10,11 +10,14 @@ afterEach (async () => {
   await page.close();
 });
 
+describe('when logged in', async () => {
 
-test('when logged in, can see blog create form', async () => {
-  await page.login();
-  await page.click('a.btn-floating');
-
-  const label = await page.getContentsOf('form label');
-  expect(label).toEqual('Blog Title');
-});
+  beforeEach( async () => {
+      await page.login();
+      await page.click('a.btn-floating');
+  });
+  test('when logged in, can see blog create form', async () => {
+      const label = await page.getContentsOf('form label');
+      expect(label).toEqual('Blog Title');
+  });
+})
