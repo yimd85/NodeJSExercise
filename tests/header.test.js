@@ -1,6 +1,6 @@
 // const puppeteer = require('puppeteer');
-const sessionFactory = require('./factories/sessionFactory');
-const userFactory = require('./factories/userFactory');
+// const sessionFactory = require('./factories/sessionFactory');
+// const userFactory = require('./factories/userFactory');
 const Page = require('./helpers/page');
 
 // test('Adds two numbers', () => {
@@ -30,7 +30,8 @@ test('The header has the correct text', async () => {
     // const page = await browser.newPage();
     // await page.goto('localhost:3000');
 
-    const text = await page.$eval('a.brand-logo', el => el.innerHTML);
+    // const text = await page.$eval('a.brand-logo', el => el.innerHTML);
+    const text = await page.getContentsOf('a.brand-logo');
     expect(text).toEqual('Blogster');
 });
 
@@ -44,8 +45,8 @@ test('clicking login starts oauth flow', async () => {
 
 test('when signed in, shows logout button', async () => {
   // const id = '5b672e9a5aeb420ca19b7528';
-  const user = await userFactory();
-  const { session, sig } = sessionFactory(user);
+  // const user = await userFactory();
+  // const { session, sig } = sessionFactory(user);
 
   // const Buffer = require('safe-buffer').Buffer;
   // const sessionObject = {
@@ -66,12 +67,13 @@ test('when signed in, shows logout button', async () => {
   // eyJwYXNzcG9ydCI6eyJ1c2VyIjoiNWI2NzJlOWE1YWViNDIwY2ExOWI3NTI4In19
   // zYSfYZfJkkgRawUyYcb3lTnniVw
 
-  await page.setCookie({ name: 'session', value: session });
-  await page.setCookie({ name: 'session.sig', value: sig });
-  await page.goto('localhost:3000');
-  await page.waitFor('a[href="/auth/logout"]');
-
-  const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+  // await page.setCookie({ name: 'session', value: session });
+  // await page.setCookie({ name: 'session.sig', value: sig });
+  // await page.goto('localhost:3000');
+  // await page.waitFor('a[href="/auth/logout"]');
+  await page.login();
+  // const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+  const text = await page.getContentsOf('a[href="/auth/logout"]');
   expect(text).toEqual('Logout');
 
 });
