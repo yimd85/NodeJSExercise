@@ -61,37 +61,58 @@ describe('when logged in', async () => {
 
 
 describe('User is not logged in', async () =>{
-  test('user cannot create blog poasts', async () => {
-    const result = await page.evaluate(
-        () =>{
-          return fetch('/api/blogs', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ title: 'my title', content: 'My content'})
-          }).then(res => res.json());
-      }
-    );
 
-  // console.log(result);
-  expect(result).toEqual({error:'You must log in!'});
-  });
+    // test('user cannot create blog poasts', async () => {
+      // const result = await page.evaluate(
+      //     () =>{
+      //       return fetch('/api/blogs', {
+      //             method: 'POST',
+      //             credentials: 'same-origin',
+      //             headers: {
+      //               'Content-Type': 'application/json'
+      //             },
+      //             body: JSON.stringify({ title: 'my title', content: 'My content'})
+      //       }).then(res => res.json());
+      //   }
+      // );
 
-  test('user cannot get blogs', async () => {
-    const result = await page.evaluate(
-        () =>{
-          return fetch('/api/blogs', {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                  'Content-Type': 'application/json'
+    // console.log(result);
+    // const result = await page.post('/api/blogs/', {title: 'T', content: 'C'});
+    // expect(result).toEqual({error:'You must log in!'});
+    // });
+    //
+    // test('user cannot get blogs', async () => {
+    //   // const result = await page.evaluate(
+    //   //     () =>{
+    //   //       return fetch('/api/blogs', {
+    //   //             method: 'GET',
+    //   //             credentials: 'same-origin',
+    //   //             headers: {
+    //   //               'Content-Type': 'application/json'
+    //   //             }
+    //   //       }).then(res => res.json());
+    //   //     }
+    //   // );
+    // // console.log(result);
+    //
+    // const result = await page.get('/api/blogs');
+    // expect(result).toEqual({error:'You must log in!'});
+    // });
+  // });
+  const actions = [
+    {
+      method: 'get',
+      path: '/api/blogs/'
+    },{
+      method: 'post',
+      path: '/api/blogs',
+      data: {title: 'T',content: 'C'}
+    }
+  ]
+          test('Blog related actions are prohitbited', async () =>{
+                const results = await page.execRequests(actions);
+                for(let result of results){
+                  expect(result).toEqual({error:'You must log in!'});
                 }
-          }).then(res => res.json());
-        }
-    );
-  // console.log(result);
-  expect(result).toEqual({error:'You must log in!'});
-  });
+          });
 });
