@@ -1,6 +1,5 @@
 # AdvancedNodeStarter
 Starting project for a course on Advanced Node @ Udemy
-////
 
 
 ### To start up the project
