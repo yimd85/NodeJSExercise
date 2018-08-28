@@ -3,7 +3,7 @@ let page;
 //creates a new broswer window and tab
 beforeEach(async () => {
   page = await Page.build();
-  await page.goto('localhost:3000');
+  await page.goto('http://localhost:3000');
 });
 
 afterEach (async () => {

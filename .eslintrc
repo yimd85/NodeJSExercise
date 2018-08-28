@@ -1,4 +1,3 @@
 {
-   "extends": "rallycoding",
-   "plugins": ["jest"]
+   "extends": "rallycoding"
 }
