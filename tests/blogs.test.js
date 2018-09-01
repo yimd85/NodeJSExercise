@@ -33,16 +33,16 @@ describe('when logged in', async () => {
         expect(text).toEqual('Please confirm your entries');
       });
 
-      test('submitting then saving adds blog to index page', async () => {
-        await page.click('button.green');
-        await page.waitFor('.card');
-
-        const title = await page.getContentsOf('.card-title');
-        const content = await page.getContentsOf('p');
-
-        expect(title).toEqual('My Title');
-        expect(content).toEqual('My Content');
-      });
+      // test('submitting then saving adds blog to index page', async () => {
+      //   await page.click('button.green');
+      //   await page.waitFor('.card');
+      //
+      //   const title = await page.getContentsOf('.card-title');
+      //   const content = await page.getContentsOf('p');
+      //
+      //   expect(title).toEqual('My Title');
+      //   expect(content).toEqual('My Content');
+      // });
     });
 
     describe('and using invalid inputs', async () => {
