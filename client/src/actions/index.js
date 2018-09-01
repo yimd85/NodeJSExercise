@@ -21,7 +21,7 @@ export const submitBlog = (values, file, history) => async dispatch => {
       'Content-Type': file.type
     }
   });
-
+  console.log(upload);
   const res = await axios.post('/api/blogs', {
     ...values,
     imageUrl: uploadConfig.data.key
