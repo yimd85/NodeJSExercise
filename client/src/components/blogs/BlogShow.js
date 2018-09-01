@@ -11,7 +11,7 @@ class BlogShow extends Component {
    if (this.props.blog.imageUrl) {
      const x = this.props.blog.imageUrl
      return <img src={'https://s3.amazonaws.com/david-blog-bucket-123/' + x}
-     alt="description of image"/>
+     alt="description"/>
    }
  }
 
